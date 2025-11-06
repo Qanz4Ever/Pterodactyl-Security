@@ -11,7 +11,7 @@ RESET="\e[0m"
 echo -e "${CYAN}"
 echo "╔═══════════════════════════════════════════════════════╗"
 echo "║              𝙼𝙵𝚂𝙰𝚅𝙰𝙽𝙰 𝚂𝙴𝙲𝚄𝚁𝙸𝚃𝚈 𝙸𝙽𝚂𝚃𝙰𝙻𝙻𝙴𝚁              ║"
-echo "║                   𝙎𝙚𝙘𝙪𝙧𝙚. 𝙎𝙞𝙢𝙥𝙡𝙚. 𝙎𝙖𝙛𝙚.               ║"
+echo "║                 𝙎𝙚𝙘𝙪𝙧𝙚. 𝙎𝙞𝙢𝙥𝙡𝙚. 𝙎𝙖𝙛𝙚.                 ║"
 echo "╚═══════════════════════════════════════════════════════╝"
 echo -e "${RESET}"
 
@@ -24,6 +24,13 @@ install_patch() {
     local name="$1"
     local file="$2"
     local url="$3"
+    local marker="Protect By Mfsavana"
+    
+    if [ -f "$file" ] && grep -Fq -- "$marker" "$file"; then
+      echo -e "🔍 | $name 𝙎𝙪𝙙𝙖𝙝 𝙋𝙚𝙧𝙣𝙖𝙝 𝘿𝙞 𝙄𝙣𝙨𝙩𝙖𝙡𝙡, 𝙈𝙚𝙡𝙚𝙬𝙖𝙩𝙞 𝙄𝙣𝙨𝙩𝙖𝙡𝙖𝙨𝙞..."
+      return
+      sleep 1
+    fi
 
     echo
     read -p "📦 | 𝘼𝙥𝙖𝙠𝙖𝙝 𝘼𝙣𝙙𝙖 𝙄𝙣𝙜𝙞𝙣 𝙈𝙚𝙣𝙜𝙞𝙣𝙨𝙩𝙖𝙡𝙡 $name? (𝗬/𝗡): " jawab
@@ -39,7 +46,7 @@ install_patch() {
         fi
 
         echo -e "📥 | 𝙈𝙚𝙣𝙜𝙪𝙣𝙙𝙪𝙝 𝙁𝙞𝙡𝙚 𝙋𝙖𝙩𝙝..."
-        curl -fsSL "$url" -o "$file"
+        curl -fSsL "$url" -o "$file" >/dev/null 2>&1
 
         if [ $? -eq 0 ]; then
             echo -e "${GREEN}✅ | 𝙋𝙖𝙩𝙝 𝘽𝙚𝙧𝙝𝙖𝙨𝙞𝙡 𝘿𝙞 𝙏𝙚𝙧𝙖𝙥𝙠𝙖𝙣.${RESET}"
@@ -56,41 +63,52 @@ install_patch() {
     fi
 }
 
-# === Patch List ===
 install_patch "𝘼𝙣𝙩𝙞 𝙈𝙤𝙙𝙞𝙛𝙞𝙠𝙖𝙨𝙞 𝘿𝙚𝙩𝙖𝙞𝙡 𝙎𝙚𝙧𝙫𝙚𝙧" \
 "/var/www/pterodactyl/app/Services/Servers/DetailsModificationService.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/DetailsModificationService.php?token=GHSAT0AAAAAADNGOKTTTMZE3M3TXWGZKF2Y2IFP62A"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/DetailsModificationService.php"
 
-install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙁𝙞𝙡𝙚𝙨 𝙎𝙚𝙧𝙫𝙚𝙧 𝙎𝙚𝙡𝙖𝙞𝙣 𝙋𝙚𝙢𝙞𝙡𝙞𝙠" \
+install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙎𝙚𝙧𝙫𝙚𝙧 𝙎𝙚𝙡𝙖𝙞𝙣 𝙋𝙚𝙢𝙞𝙡𝙞𝙠" \
+"/var/www/pterodactyl/app/Http/Controllers/Api/Client/Servers/ServerController.php" \
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/ServerController.php"
+
+install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙁𝙞𝙡𝙚𝙨 𝙎𝙚𝙡𝙖𝙞𝙣 𝙋𝙚𝙢𝙞𝙡𝙞𝙠" \
 "/var/www/pterodactyl/app/Http/Controllers/Api/Client/Servers/FileController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/FileController.php?token=GHSAT0AAAAAADNGOKTT5STMTAMZSI474ABE2IFQKCQ"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/FileController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙎𝙚𝙩𝙩𝙞𝙣𝙜𝙨 𝙋𝙖𝙣𝙚𝙡" \
 "/var/www/pterodactyl/app/Http/Controllers/Admin/Settings/IndexController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/IndexController.php?token=GHSAT0AAAAAADNGOKTT4KONJVCXW34EM5ZO2IFQLNA"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/IndexController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙇𝙤𝙘𝙖𝙩𝙞𝙤𝙣 𝙋𝙖𝙣𝙚𝙡" \
 "/var/www/pterodactyl/app/Http/Controllers/Admin/LocationController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/LocationController.php?token=GHSAT0AAAAAADNGOKTT2DBYRETO5FYB2UCU2IFQMMA"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/LocationController.php"
+
+install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙀𝙜𝙜 𝙋𝙖𝙣𝙚𝙡" \
+"/var/www/pterodactyl/app/Http/Controllers/Admin/Nests/EggController.php" \
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/EggController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙉𝙚𝙨𝙩 𝙋𝙖𝙣𝙚𝙡" \
 "/var/www/pterodactyl/app/Http/Controllers/Admin/Nests/NestController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/NestController.php?token=GHSAT0AAAAAADNGOKTT62QPZ5Y6O3E5WY3I2IFQNEA"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NestController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙉𝙤𝙙𝙚𝙨 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/NodesController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/NodesController.php?token=GHSAT0AAAAAADNGOKTSP463NJCRKWBW4ZOC2IFQOAQ"
+"/var/www/pterodactyl/app/Http/Controllers/Admin/Nodes/NodeController.php" \
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NodesController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙎𝙚𝙧𝙫𝙚𝙧" \
 "/var/www/pterodactyl/app/Services/Servers/ServerDeletionService.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/ServerDeletionService.php?token=GHSAT0AAAAAADNGOKTSPWI7N4ODBIFI5AQG2IFQPBA"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/ServerDeletionService.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝙐𝙗𝙖𝙝 𝘿𝙖𝙣 𝙃𝙖𝙥𝙪𝙨 𝘼𝙠𝙪𝙣" \
 "/var/www/pterodactyl/app/Http/Controllers/Admin/UserController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/UserController.php?token=GHSAT0AAAAAADNGOKTTVSAX5ADEJIIPCXKY2IFQP2A"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/UserController.php"
+
+install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙎𝙚𝙩𝙩𝙞𝙣𝙜𝙨 𝙋𝙖𝙣𝙚𝙡" \
+"/var/www/pterodactyl/app/Http/Controllers/Api/Client/Servers/SettingsController.php" \
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/SettingsController.php"
 
 echo -e "\n${CYAN}==============================================================="
 echo -e "🎉 | 𝙎𝙚𝙢𝙪𝙖 𝙄𝙣𝙨𝙩𝙖𝙡𝙖𝙨𝙞 𝙏𝙚𝙡𝙖𝙝 𝙎𝙚𝙡𝙚𝙨𝙖𝙞."
-echo -e "𝙏𝙚𝙧𝙞𝙢𝙖 𝙆𝙖𝙨𝙞𝙝 𝙏𝙚𝙡𝙖𝙝 𝙈𝙚𝙣𝙜𝙜𝙪𝙣𝙖𝙠𝙖𝙣 𝙎𝙘𝙧𝙞𝙥𝙩 ${YELLOW}𝙼𝙵𝚂𝙰𝚅𝙰𝙽𝙰 𝚂𝙴𝙲𝚄𝚁𝙸𝚃𝚈 𝙸𝙽𝚂𝚃𝙰𝙻𝙻𝙴𝚁${RESET}${CYAN}."
+echo -e "🙏 | 𝙏𝙚𝙧𝙞𝙢𝙖 𝙆𝙖𝙨𝙞𝙝 𝙏𝙚𝙡𝙖𝙝 𝙈𝙚𝙣𝙜𝙜𝙪𝙣𝙖𝙠𝙖𝙣 𝙎𝙘𝙧𝙞𝙥𝙩 ${YELLOW}𝙼𝙵𝚂𝙰𝚅𝙰𝙽𝙰 𝚂𝙴𝙲𝚄𝚁𝙸𝚃𝚈 𝙸𝙽𝚂𝚃𝙰𝙻𝙻𝙴𝚁${RESET}${CYAN}."
 echo "==============================================================="
 echo -e "${RESET}"
