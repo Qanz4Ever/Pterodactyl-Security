@@ -92,42 +92,8 @@ install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙉𝙚𝙨𝙩 𝙋𝙖�
 "https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NestController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙉𝙤𝙙𝙚𝙨 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/NodesController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NodesController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙎𝙚𝙧𝙫𝙚𝙧" \
-"/var/www/pterodactyl/app/Services/Servers/ServerDeletionService.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/ServerDeletionService.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝙐𝙗𝙖𝙝 𝘿𝙖𝙣 𝙃𝙖𝙥𝙪𝙨 𝘼𝙠𝙪𝙣" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/UserController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/UserController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙎𝙚𝙩𝙩𝙞𝙣𝙜𝙨 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Api/Client/Servers/SettingsController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/SettingsController.php"
-
-echo -e "\n${CYAN}==============================================================="
-echo -e "🎉 | 𝙎𝙚𝙢𝙪𝙖 𝙄𝙣𝙨𝙩𝙖𝙡𝙖𝙨𝙞 𝙏𝙚𝙡𝙖𝙝 𝙎𝙚𝙡𝙚𝙨𝙖𝙞."
-echo -e "🙏 | 𝙏𝙚𝙧𝙞𝙢𝙖 𝙆𝙖𝙨𝙞𝙝 𝙏𝙚𝙡𝙖𝙝 𝙈𝙚𝙣𝙜𝙜𝙪𝙣𝙖𝙠𝙖𝙣 𝙎𝙘𝙧𝙞𝙥𝙩 ${YELLOW}𝙼𝙵𝚂𝙰𝚅𝙰𝙽𝙰 𝚂𝙴𝙲𝚄𝚁𝙸𝚃𝚈 𝙸𝙽𝚂𝚃𝙰𝙻𝙻𝙴𝚁${RESET}${CYAN}."
-echo "==============================================================="
-echo -e "${RESET}""https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/IndexController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙇𝙤𝙘𝙖𝙩𝙞𝙤𝙣 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/LocationController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/LocationController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙀𝙜𝙜 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/Nests/EggController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/EggController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙉𝙚𝙨𝙩 𝙋𝙖𝙣𝙚𝙡" \
-"/var/www/pterodactyl/app/Http/Controllers/Admin/Nests/NestController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NestController.php"
-
-install_patch "𝘼𝙣𝙩𝙞 𝘼𝙠𝙨𝙚𝙨 𝙈𝙚𝙣𝙪 𝙉𝙤𝙙𝙚𝙨 𝙋𝙖𝙣𝙚𝙡" \
 "/var/www/pterodactyl/app/Http/Controllers/Admin/Nodes/NodeController.php" \
-"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NodesController.php"
+"https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install/NodeController.php"
 
 install_patch "𝘼𝙣𝙩𝙞 𝙃𝙖𝙥𝙪𝙨 𝙎𝙚𝙧𝙫𝙚𝙧" \
 "/var/www/pterodactyl/app/Services/Servers/ServerDeletionService.php" \
