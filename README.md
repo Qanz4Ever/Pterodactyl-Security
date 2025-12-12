@@ -36,7 +36,11 @@ Semua patch otomatis menyesuaikan file sesuai mode yang dipilih.
 Jalankan perintah:
 
 ```bash
-apt install curl -y curl -o install.sh https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh chmod +x install.sh dos2unix install.sh bash install.sh
+apt install curl -y
+curl -o install.sh https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh
+chmod +x install.sh
+dos2unix install.sh
+bash install.sh
 ```
 
 Installer akan menampilkan menu:
