@@ -115,3 +115,48 @@ Beberapa terminal tidak mendukung font unicode.
 Header dan footer installer menggunakan unicode, tetapi menu menggunakan font ASCII normal agar kompatibel di semua sistem.
 
 ---
+
+## 📜 License
+
+This project uses a **dual-license system**:
+
+---
+
+### **1. Apache License 2.0 (Primary License)**
+
+The general project, documentation, and all non-restricted components are licensed under the **Apache License 2.0**.
+
+You may read the full license here:  
+🔗 https://www.apache.org/licenses/LICENSE-2.0
+
+---
+
+### **2. MFSAVANA SECURITY LICENSE v1.0 (Secondary / Restricted License)**
+
+Certain files in this repository are protected and licensed under the  
+**MFSAVANA SECURITY LICENSE v1.0**.
+
+Files covered by this restrictive license include (but are not limited to):
+
+- Security patches  
+- Installer scripts  
+- Uninstaller scripts  
+- Anti-modification systems  
+- Anti-access controllers  
+- Any file containing the marker: **"Protect By Mfsavana"**
+
+Under this license, the following actions are **strictly prohibited**:
+
+- Reuploading or redistributing the protected files  
+- Selling or commercially repackaging the script or any part of it  
+- Publishing modified versions  
+- Removing or altering credit lines, copyrights, or markers  
+- Sharing modified or original versions publicly  
+
+These files are **source-available but NOT open-source**.
+
+By using this project, you agree to follow both licenses depending on the file you access.
+
+---
+
+© 2025 Qanz4Ever / Mfsavana — All Rights Reserved.
