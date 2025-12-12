@@ -91,17 +91,17 @@ load_install_menu() {
         echo
         echo
         case $opt in
-            0) bash plugins/installer.sh all "$selected_mode"; exit ;;
-            1) bash plugins/installer.sh 1 "$selected_mode" ;;
-            2) bash plugins/installer.sh 2 "$selected_mode" ;;
-            3) bash plugins/installer.sh 3 "$selected_mode" ;;
-            4) bash plugins/installer.sh 4 "$selected_mode" ;;
-            5) bash plugins/installer.sh 5 "$selected_mode" ;;
-            6) bash plugins/installer.sh 6 "$selected_mode" ;;
-            7) bash plugins/installer.sh 7 "$selected_mode" ;;
-            8) bash plugins/installer.sh 8 "$selected_mode" ;;
-            9) bash plugins/installer.sh 9 "$selected_mode" ;;
-            10) bash plugins/installer.sh 10 "$selected_mode" ;;
+            0) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh all "$selected_mode"; exit ;;
+            1) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 1 "$selected_mode" ;;
+            2) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 2 "$selected_mode" ;;
+            3) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 3 "$selected_mode" ;;
+            4) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 4 "$selected_mode" ;;
+            5) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 5 "$selected_mode" ;;
+            6) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 6 "$selected_mode" ;;
+            7) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 7 "$selected_mode" ;;
+            8) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 8 "$selected_mode" ;;
+            9) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 9 "$selected_mode" ;;
+            10) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/installer.sh 10 "$selected_mode" ;;
             11) clear; run_install_menu; return ;;
             *) echo "Input salah."; sleep 1 ;;
         esac
@@ -134,17 +134,17 @@ load_uninstall_menu() {
         echo
         echo
         case $opt in
-            0) bash plugins/uninstaller.sh all; exit ;;
-            1) bash plugins/uninstaller.sh 1 ;;
-            2) bash plugins/uninstaller.sh 2 ;;
-            3) bash plugins/uninstaller.sh 3 ;;
-            4) bash plugins/uninstaller.sh 4 ;;
-            5) bash plugins/uninstaller.sh 5 ;;
-            6) bash plugins/uninstaller.sh 6 ;;
-            7) bash plugins/uninstaller.sh 7 ;;
-            8) bash plugins/uninstaller.sh 8 ;;
-            9) bash plugins/uninstaller.sh 9 ;;
-            10) bash plugins/uninstaller.sh 10 ;;
+            0) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh all; exit ;;
+            1) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 1 ;;
+            2) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 2 ;;
+            3) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 3 ;;
+            4) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 4 ;;
+            5) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 5 ;;
+            6) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 6 ;;
+            7) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 7 ;;
+            8) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 8 ;;
+            9) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 9 ;;
+            10) bash https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/Plugins/uninstaller.sh 10 ;;
             11) clear; run_install_menu; return ;;
             *) echo "Input salah."; sleep 1 ;;
         esac
