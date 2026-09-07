@@ -1,160 +1,262 @@
-# Pterodactyl Security Installer (MFSAVANA)
+<p align="center">
+  <img src="assets/banner.svg" alt="Pterodactyl Security Banner" width="100%">
+</p>
 
-Automated security hardening and access control patcher for Pterodactyl Panel. Restricts sensitive administrative panels, blocks unauthorized server snooping, and prevents critical data deletion based on whitelisted User IDs.
+<p align="center">
+  <a href="https://pterodactyl.io"><img src="https://img.shields.io/badge/Pterodactyl-v1.x-0072ff?style=for-the-badge&logo=pterodactyl&logoColor=white" alt="Pterodactyl"></a>
+  <a href="https://www.gnu.org/software/bash/"><img src="https://img.shields.io/badge/Platform-Linux%20%7C%20Bash-4EAA25?style=for-the-badge&logo=gnubash&logoColor=white" alt="Bash"></a>
+  <img src="https://img.shields.io/badge/Security-Hardened-38EF7D?style=for-the-badge&logo=shield&logoColor=white" alt="Security Hardened">
+  <img src="https://img.shields.io/badge/Telemetry-Zero%20Egress-F472B6?style=for-the-badge" alt="Zero Telemetry">
+  <a href="#-license"><img src="https://img.shields.io/badge/License-Dual%20License-3B82F6?style=for-the-badge" alt="License"></a>
+</p>
 
----
+<p align="center">
+  <strong>Enterprise-grade access control, anti-snooping, and anti-tampering patch suite for Pterodactyl Panel.</strong><br>
+  Restricts sensitive panels, blocks unauthorized server file inspection, and prevents destructive actions via strict User ID whitelisting.
+</p>
 
-## ✦ Overview
-
-Default Pterodactyl installations grant broad permissions to panel administrators and sub-users. **Pterodactyl Security Installer** patches core controllers and services to strictly isolate servers and lock down administrative sections by whitelisting specific User IDs (e.g., Owner/Root admin only).
-
-### Key Highlights
-- **Zero Configuration**: Interactive CLI menu with single-command deployment.
-- **Non-Destructive**: Backs up target files (`.bak`) before applying any patch.
-- **Idempotent**: Detects existing patch signatures (`Protect By Mfsavana`) to prevent redundant patching.
-- **Modular or All-in-One**: Install all protection patches at once or apply individual modules.
-- **Built-in Rollback**: Restore from local `.bak` backups or default panel controller fallbacks.
-- **Privacy-Friendly**: No external data collection or telemetry; operations run entirely locally.
-
----
-
-## ✦ Security Protection Modules
-
-| # | Module | Target File Path | Description |
-|---|--------|------------------|-------------|
-| **1** | **Server File Isolation** | `app/Http/Controllers/Api/Client/Servers/FileController.php` | Restricts file manager access strictly to the verified server owner or whitelisted IDs. |
-| **2** | **Location Lockdown** | `app/Http/Controllers/Admin/LocationController.php` | Blocks unauthorized access to Admin Locations management. |
-| **3** | **Node Lockdown** | `app/Http/Controllers/Admin/Nodes/NodeController.php` | Prevents unauthorized users from viewing or modifying Nodes. |
-| **4** | **Settings Lockdown** | `app/Http/Controllers/Admin/Settings/IndexController.php` | Protects global panel configuration from unauthorized tampering. |
-| **5** | **Server Access Guard** | `app/Http/Controllers/Api/Client/Servers/ServerController.php` | Prevents non-owners from accessing server consoles and controls. |
-| **6** | **Anti-Egg Deletion** | `app/Http/Controllers/Admin/Nests/EggController.php` | Blocks accidental or malicious deletion of panel eggs. |
-| **7** | **Anti-Nest Deletion** | `app/Http/Controllers/Admin/Nests/NestController.php` | Blocks accidental or malicious deletion of panel nests. |
-| **8** | **Anti-Server Deletion** | `app/Services/Servers/ServerDeletionService.php` | Restricts the server deletion pipeline to whitelisted IDs only. |
-| **9** | **Account Guard** | `app/Http/Controllers/Admin/UserController.php` | Prevents unauthorized user account modification or privilege escalation. |
-| **10** | **Server Details Guard** | `app/Services/Servers/DetailsModificationService.php` | Restricts modification of server specifications (CPU, RAM, Disk limits). |
+<p align="center">
+  <a href="#-quick-start">Quick Start</a> •
+  <a href="#-default-vs-hardened">Why This Suite?</a> •
+  <a href="#-protection-matrix">Protection Matrix</a> •
+  <a href="#-access-control-hierarchy">ID Tiers</a> •
+  <a href="#-architecture--how-it-works">Architecture</a> •
+  <a href="#-uninstallation--rollback">Rollback</a> •
+  <a href="#-troubleshooting--faq">FAQ</a> •
+  <a href="#-license">License</a>
+</p>
 
 ---
 
-## ✦ Access Modes (ID Whitelist)
+## ⚡ Overview
 
-During setup, select which administrative user ID tier has permission to bypass restrictions:
+By default, Pterodactyl Panel allows anyone granted administrative rights or specific permissions to view node configurations, browse server files, and alter or destroy panel assets (Eggs, Nests, and Containers). For multi-admin hosting providers, public game hosts, or agencies, this architecture poses significant insider threat risks.
 
-- **Mode `[0]` - ID 1 Only**: Strict mode. Only primary administrator (User ID `1`) has full access.
-- **Mode `[1]` - ID 1 & 2**: Allows primary and secondary administrators (User IDs `1` and `2`).
-- **Mode `[2]` - ID 1, 2 & 3**: Allows up to three designated administrator IDs (`1`, `2`, and `3`).
+**Pterodactyl Security Installer (MFSAVANA)** provides an automated, non-destructive hardening layer. It injects strict ownership and User ID validation directly into Pterodactyl's core controllers and service providers, guaranteeing that only explicitly authorized administrator IDs can execute high-risk operations.
 
 ---
 
-## ✦ Prerequisites
+## ⚔️ Default vs. Hardened
 
-- **Operating System**: Linux (Ubuntu, Debian, CentOS, AlmaLinux, Rocky Linux)
-- **Pterodactyl Panel**: Installed in default directory (`/var/www/pterodactyl/`)
+| Threat Vector | Standard Pterodactyl Panel | With Pterodactyl Security |
+| :--- | :--- | :--- |
+| **Server File Snooping** | Any administrator or authorized sub-user can read server files. | 🛡️ **Blocked.** Only the true server owner and whitelisted IDs can view file trees or contents. |
+| **Node / Infra Inspection** | Any staff member with admin panel access can inspect node IPs & credentials. | 🛡️ **Blocked.** Access to `Nodes` and `Locations` is restricted to root administrator IDs. |
+| **Panel Settings Tampering** | Administrators can view API credentials, SMTP, and system mail configs. | 🛡️ **Protected.** General Settings panel access is blocked for non-whitelisted IDs. |
+| **Malicious Server Deletion** | A rogue admin or compromised account can purge game servers permanently. | 🛡️ **Blocked.** `ServerDeletionService` rejects deletion calls unless triggered by allowed IDs. |
+| **Egg & Nest Sabotage** | Accidental or malicious deletion of Eggs or Nests breaks existing servers. | 🛡️ **Blocked.** Deletion endpoints are intercepted at controller level with `403 Forbidden`. |
+| **Account Modification** | Secondary admins can tamper with owner email, password, or permissions. | 🛡️ **Blocked.** Controller-level guards prevent unauthorized user profile mutations. |
+| **Deployment Safety** | Manual file modification carries high risk of syntax errors and downtime. | 🛡️ **Automated.** Non-destructive installer creates automatic `.bak` snapshots for instant rollback. |
+
+---
+
+## 🛡️ Protection Matrix
+
+The suite patches 10 core API and administrative endpoints within `/var/www/pterodactyl/`:
+
+| # | Module Name | Target Controller / Service Path | Risk Mitigated |
+| :-: | :--- | :--- | :--- |
+| `01` | **Anti File Snooping** | `app/Http/Controllers/Api/Client/Servers/FileController.php` | Stops unauthorized staff from snooping on customer server files, secrets, or configs. |
+| `02` | **Location Panel Guard** | `app/Http/Controllers/Admin/LocationController.php` | Locks down access to the server locations management view. |
+| `03` | **Node Panel Guard** | `app/Http/Controllers/Admin/Nodes/NodeController.php` | Prevents unauthorized admins from inspecting node IPs, ports, and Wings daemon settings. |
+| `04` | **Settings Panel Guard** | `app/Http/Controllers/Admin/Settings/IndexController.php` | Secures global panel configurations, mail setup, and system keys. |
+| `05` | **Server Access Guard** | `app/Http/Controllers/Api/Client/Servers/ServerController.php` | Prevents non-owner staff from entering or controlling containers. |
+| `06` | **Anti Egg Deletion** | `app/Http/Controllers/Admin/Nests/EggController.php` | Blocks destructive deletion requests targeting panel service eggs. |
+| `07` | **Anti Nest Deletion** | `app/Http/Controllers/Admin/Nests/NestController.php` | Blocks destruction of entire nest categories and configurations. |
+| `08` | **Anti Server Deletion** | `app/Services/Servers/ServerDeletionService.php` | Hardens the deletion pipeline; forbids purging containers without whitelisted authority. |
+| `09` | **Anti Account Tampering** | `app/Http/Controllers/Admin/UserController.php` | Prevents privilege escalation and modifications to root user profiles. |
+| `10` | **Anti Server Spec Tampering** | `app/Services/Servers/DetailsModificationService.php` | Restricts modifying server resource quotas (CPU, RAM, Disk allocations). |
+
+---
+
+## 🔐 Access Control Hierarchy
+
+Configure the exact administrative authorization tier during the interactive setup:
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                       WHITELIST TIERS                       │
+├─────────────────┬─────────────────┬─────────────────────────┤
+│ Tier Mode       │ Allowed User ID │ Recommended For         │
+├─────────────────┼─────────────────┼─────────────────────────┤
+│ [0] ID 1 Only   │ ID: 1           │ Solo Owners / Dedicated │
+│ [1] ID 1 & 2    │ IDs: 1, 2       │ Co-Owner Teams          │
+│ [2] ID 1, 2 & 3 │ IDs: 1, 2, 3    │ Small Executive Boards  │
+└─────────────────┴─────────────────┴─────────────────────────┘
+```
+
+> [!NOTE]
+> User ID `1` corresponds to the primary administrator account created during initial Pterodactyl setup. All patches dynamically adjust checks according to the selected mode.
+
+---
+
+## 💻 CLI Terminal Interface
+
+```
+╔═══════════════════════════════════════════════════════╗
+║              MFSAVANA SECURITY INSTALLER              ║
+║                 Secure. Simple. Safe.                 ║
+╚═══════════════════════════════════════════════════════╝
+
+?--------------------?
+[0] Install Anti Intip
+[1] Uninstall Anti Intip
+?--------------------?
+Select Option With Number To Continue: 0
+
+?--------------------?
+[0] Only ID 1 Authorized (Strict)
+[1] Only ID 1 & 2 Authorized
+[2] Only ID 1, 2, & 3 Authorized
+[3] Return to Main Menu
+?--------------------?
+Select Mode: 0
+```
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+- **Linux Distribution**: Ubuntu (20.04/22.04/24.04), Debian (11/12), AlmaLinux, or Rocky Linux
+- **Pterodactyl Panel**: Installed in standard directory (`/var/www/pterodactyl/`)
 - **Permissions**: Root (`sudo`) access
-- **Dependencies**: `curl` installed (`apt-get install -y curl` or `yum/dnf install -y curl`)
+- **Tooling**: `curl` and `bash`
 
----
+### One-Line Command
 
-## ✦ Installation
-
-Run the one-line installer as `root`:
+Execute the installer directly in your terminal as `root`:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh)
 ```
 
-### Setup Steps
-1. Select `[0] Install Anti Intip`.
-2. Select your preferred ID whitelist mode (`ID-1`, `ID-1,2`, or `ID-1,2,3`).
-3. Select `[0] Install Semua Anti Intip` for all modules, or pick a specific module (`[1]` - `[10]`).
-4. Clear panel cache after installation:
+### Step-by-Step Walkthrough
+
+1. Run the command above to launch the interactive TUI.
+2. Select **`[0] Install Anti Intip`**.
+3. Choose your desired **ID Whitelist Tier** (`[0]`, `[1]`, or `[2]`).
+4. Choose your deployment scope:
+   - **`[0] Install Semua Anti Intip`** to install all 10 protection modules simultaneously (*recommended*).
+   - **`[1]` through `[10]`** to selectively install individual patches.
+5. Invalidate the panel view and routing cache:
    ```bash
    cd /var/www/pterodactyl
    php artisan view:clear
    php artisan config:clear
+   php artisan route:clear
    php artisan cache:clear
    ```
 
 ---
 
-## ✦ Uninstallation / Rollback
+## 🔄 Architecture & How It Works
 
-To revert patches and restore original panel files:
+### Installation Pipeline
+```mermaid
+flowchart TD
+    A[Launch install.sh] --> B[Select Mode: ID-1 / ID-1,2 / ID-1,2,3]
+    B --> C[Select Target Module or All]
+    C --> D{Check Marker: Protect By Mfsavana}
+    D -- Found --> E[Skip: Already Hardened]
+    D -- Not Found --> F[Create Local Backup: file.bak]
+    F --> G[Download & Apply Hardened Controller]
+    G --> H[Verification Successful]
+    H --> I[Clear Laravel View Cache]
+```
+
+### Idempotency & Safety Guarantees
+1. **Signature Verification**: Every patch includes the unique header `Protect By Mfsavana`. The installer checks for this signature prior to downloading, guaranteeing zero redundant overwrites.
+2. **Pre-Patch Snapshots**: Target files are duplicated as `<filename>.php.bak` before any file write occurs.
+3. **Zero Telemetry**: All operations are completely localized. No server tokens, IP addresses, database credentials, or panel telemetry are ever collected or transmitted.
+
+---
+
+## ↩️ Uninstallation & Rollback
+
+If you wish to remove any or all security patches, use the built-in uninstaller:
 
 ```bash
 bash <(curl -fsSL https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh)
 ```
 
-1. Select `[1] Uninstall Anti Intip`.
-2. Select `[0] Uninstall Semua Anti Intip` or choose a specific module to revert.
-3. The script restores original files from `.bak`. If `.bak` is missing, it retrieves default clean panel files from the `Uninstall/` directory.
-4. Clear panel cache:
+1. Select **`[1] Uninstall Anti Intip`**.
+2. Select **`[0] Uninstall Semua Anti Intip`** to restore all original files, or select a specific module number.
+3. The script will:
+   - Restore the original file from `<filename>.bak` if present.
+   - If the `.bak` file was removed, it cleanly downloads the official default controller from the `Uninstall/` directory.
+4. Flush the panel cache:
    ```bash
    cd /var/www/pterodactyl
    php artisan view:clear
-   php artisan config:clear
    php artisan cache:clear
    ```
 
 ---
 
-## ✦ How It Works
+## 🔧 Post-Installation Maintenance
 
-```
-                        [ install.sh ]
-                              │
-               ┌──────────────┴──────────────┐
-               ▼                             ▼
-        [ Installer ]                 [ Uninstaller ]
-               │                             │
-    Checks for patch marker           Checks for .bak
-     "Protect By Mfsavana"                   │
-        ├── Exists? → Skip            ├── Exists? → Restore .bak
-        └── Not found?                └── Missing? → Restore clean
-            ├── Backup to .bak                       defaults
-            └── Download patch
+Ensure proper ownership permissions remain assigned to the web server user:
+
+```bash
+# Ubuntu / Debian (Nginx / Apache)
+chown -R www-data:www-data /var/www/pterodactyl/*
+
+# RHEL / AlmaLinux / Rocky Linux
+chown -R nginx:nginx /var/www/pterodactyl/*
+# OR: chown -R apache:apache /var/www/pterodactyl/*
 ```
 
 ---
 
-## ✦ Disclaimer & Notes
+## ❓ Troubleshooting & FAQ
 
-- This tool modifies core Pterodactyl Panel PHP files located in `/var/www/pterodactyl`.
-- Always back up your panel directory and database before applying patches or updates.
-- Updating Pterodactyl Panel via `git pull` or manual upgrades will overwrite these modifications; simply re-run the installer after updating.
-- Menu typography is formatted in ASCII for universal terminal compatibility.
+<details>
+<summary><strong>Q: What happens when I update Pterodactyl Panel?</strong></summary>
+<br>
+When you run <code>git pull</code> or download an official Pterodactyl Panel release update, core controller files will be overwritten with default Pterodactyl code. After updating your panel, simply re-run this installer to re-apply the security hardening patches.
+</details>
+
+<details>
+<summary><strong>Q: I receive an HTTP 403 Forbidden on my own administrator account. Why?</strong></summary>
+<br>
+Check your database User ID. If your account is not ID <code>1</code> (or whichever tier you selected: <code>ID 1,2</code> or <code>ID 1,2,3</code>), the security guard will deliberately block access. To verify your user ID, run:
+<pre><code>php artisan p:user:list</code></pre>
+</details>
+
+<details>
+<summary><strong>Q: Does this patch alter my database structure or migrations?</strong></summary>
+<br>
+No. The patches operate purely at the controller and application service level. No database tables, schemas, or migrations are created or altered.
+</details>
+
+<details>
+<summary><strong>Q: How do I switch from "ID 1 Only" to "ID 1 & 2"?</strong></summary>
+<br>
+Run the uninstaller (<code>[1]</code> then <code>[0]</code>), then run the installer again selecting Mode <code>[1]</code> (ID 1 &amp; 2).
+</details>
 
 ---
 
 ## 📜 License
 
-This project uses a **dual-license system**:
+This project operates under a **dual-license architecture**:
 
 ### 1. Apache License 2.0 (Primary License)
-The general project, documentation, and all non-restricted components are licensed under the **Apache License 2.0**.  
-🔗 [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+The general repository scaffolding, documentation, uninstaller templates, and public workflow utilities are licensed under the **[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)**.
 
-### 2. MFSAVANA SECURITY LICENSE v1.0 (Secondary / Restricted License)
-Certain files in this repository are protected and licensed under the **MFSAVANA SECURITY LICENSE v1.0**.
+### 2. MFSAVANA SECURITY LICENSE v1.0 (Restricted / Source-Available)
+The specialized security patch implementations, anti-tampering logic, installer logic, and any file bearing the signature **`Protect By Mfsavana`** are protected under the **MFSAVANA SECURITY LICENSE v1.0**.
 
-Files covered by this restrictive license include (but are not limited to):
-- Security patches
-- Installer scripts
-- Uninstaller scripts
-- Anti-modification systems
-- Anti-access controllers
-- Any file containing the marker: **"Protect By Mfsavana"**
-
-Under this license, the following actions are **strictly prohibited**:
-- Reuploading or redistributing the protected files
-- Selling or commercially repackaging the script or any part of it
-- Publishing modified versions
-- Removing or altering credit lines, copyrights, or markers
-- Sharing modified or original versions publicly
-
-These files are **source-available but NOT open-source**.
-
-By using this project, you agree to follow both licenses depending on the file you access.
+Under this license, the following actions are **strictly prohibited without written authorization**:
+- Reuploading or redistributing protected patch files without source attribution.
+- Selling, renting, or commercially packaging this tool or its subcomponents.
+- Publishing modified redistributions claiming original authorship.
+- Removing or obfuscating developer credit lines or security signature headers.
 
 ---
 
-© 2025 Qanz4Ever / Mfsavana — All Rights Reserved.
+<p align="center">
+  Developed with focus on panel integrity and operational safety.<br>
+  <strong>Developer:</strong> <a href="https://github.com/Qanz4Ever">@mfsavana</a> • © 2025 Qanz4Ever / Mfsavana — All Rights Reserved.
+</p>
