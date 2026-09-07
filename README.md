@@ -93,24 +93,27 @@ Configure the exact administrative authorization tier during the interactive set
 ## 💻 CLI Terminal Interface
 
 ```
-╔═══════════════════════════════════════════════════════╗
-║              MFSAVANA SECURITY INSTALLER              ║
-║                 Secure. Simple. Safe.                 ║
-╚═══════════════════════════════════════════════════════╝
+┌─────────────────────────────────────────────────────────────┐
+│                PTERODACTYL SECURITY SUITE                   │
+│              Access Hardening & Anti-Tamper                 │
+│                   Version 2.0 • @mfsavana                   │
+└─────────────────────────────────────────────────────────────┘
 
-?--------------------?
-[0] Install Anti Intip
-[1] Uninstall Anti Intip
-?--------------------?
-Select Option With Number To Continue: 0
+Main Menu:
+  [1] Install Security Hardening
+  [2] Uninstall / Rollback Patches
+  [3] Check Protection Status
+  ─────────────────────────────────────────────────────────
+  [0] Exit
 
-?--------------------?
-[0] Only ID 1 Authorized (Strict)
-[1] Only ID 1 & 2 Authorized
-[2] Only ID 1, 2, & 3 Authorized
-[3] Return to Main Menu
-?--------------------?
-Select Mode: 0
+Select an option [0-3]: 1
+
+Select Protection Whitelist Tier:
+  [1] Mode 1 : Strict Admin     (User ID: 1 only)
+  [2] Mode 2 : Dual Admin       (User IDs: 1 & 2)
+  [3] Mode 3 : Executive Team   (User IDs: 1, 2, & 3)
+  ─────────────────────────────────────────────────────────
+  [0] Back to Main Menu
 ```
 
 ---
@@ -134,11 +137,12 @@ bash <(curl -fsSL https://pterodactyl-installer.mfsavana.my.id/)
 ### Step-by-Step Walkthrough
 
 1. Run the command above to launch the interactive TUI.
-2. Select **`[0] Install Anti Intip`**.
-3. Choose your desired **ID Whitelist Tier** (`[0]`, `[1]`, or `[2]`).
+2. Select **`[1] Install Security Hardening`**.
+3. Choose your desired **ID Whitelist Tier** (`[1]`, `[2]`, or `[3]`).
 4. Choose your deployment scope:
-   - **`[0] Install Semua Anti Intip`** to install all 10 protection modules simultaneously (*recommended*).
+   - **`[A] Install All Modules`** to install all 10 protection modules simultaneously (*recommended*).
    - **`[1]` through `[10]`** to selectively install individual patches.
+5. Optionally run **`[3] Check Protection Status`** at any time to verify installed patches.
 5. Invalidate the panel view and routing cache:
    ```bash
    cd /var/www/pterodactyl
@@ -180,8 +184,8 @@ If you wish to remove any or all security patches, use the built-in uninstaller:
 bash <(curl -fsSL https://pterodactyl-installer.mfsavana.my.id/)
 ```
 
-1. Select **`[1] Uninstall Anti Intip`**.
-2. Select **`[0] Uninstall Semua Anti Intip`** to restore all original files, or select a specific module number.
+1. Select **`[2] Uninstall / Rollback Patches`**.
+2. Select **`[A] Uninstall All Modules`** to restore all original files, or select a specific module number (`[1]` - `[10]`).
 3. The script will:
    - Restore the original file from `<filename>.bak` if present.
    - If the `.bak` file was removed, it cleanly downloads the official default controller from the `Uninstall/` directory.
@@ -233,7 +237,7 @@ No. The patches operate purely at the controller and application service level. 
 <details>
 <summary><strong>Q: How do I switch from "ID 1 Only" to "ID 1 & 2"?</strong></summary>
 <br>
-Run the uninstaller (<code>[1]</code> then <code>[0]</code>), then run the installer again selecting Mode <code>[1]</code> (ID 1 &amp; 2).
+Run the uninstaller (<code>[2]</code> then <code>[A]</code>), then run the installer again selecting Mode <code>[2]</code> (ID 1 &amp; 2).
 </details>
 
 ---
@@ -243,10 +247,10 @@ Run the uninstaller (<code>[1]</code> then <code>[0]</code>), then run the insta
 This project operates under a **dual-license architecture**:
 
 ### 1. Apache License 2.0 (Primary License)
-The general repository scaffolding, documentation, uninstaller templates, and public workflow utilities are licensed under the **[Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)**.
+The general repository scaffolding, documentation, uninstaller templates, and public workflow utilities are licensed under the **[Apache License 2.0](LICENSE)**.
 
 ### 2. MFSAVANA SECURITY LICENSE v1.0 (Restricted / Source-Available)
-The specialized security patch implementations, anti-tampering logic, installer logic, and any file bearing the signature **`Protect By Mfsavana`** are protected under the **MFSAVANA SECURITY LICENSE v1.0**.
+The specialized security patch implementations, anti-tampering logic, installer logic, and any file bearing the signature **`Protect By Mfsavana`** are protected under the **[MFSAVANA SECURITY LICENSE v1.0](LICENSE-MFSAVANA.txt)**.
 
 Under this license, the following actions are **strictly prohibited without written authorization**:
 - Reuploading or redistributing protected patch files without source attribution.

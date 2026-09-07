@@ -1,0 +1,12 @@
+# Environment and backup files
+*.bak
+*.tmp
+*.log
+*.swp
+*~
+.DS_Store
+Thumbs.db
+
+# IDE configuration
+.vscode/
+.idea/
