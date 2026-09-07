@@ -128,7 +128,7 @@ Select Mode: 0
 Execute the installer directly in your terminal as `root`:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh)
+bash <(curl -fsSL https://pterodactyl-installer.mfsavana.my.id/)
 ```
 
 ### Step-by-Step Walkthrough
@@ -155,7 +155,7 @@ bash <(curl -fsSL https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Securi
 ### Installation Pipeline
 ```mermaid
 flowchart TD
-    A[Launch install.sh] --> B[Select Mode: ID-1 / ID-1,2 / ID-1,2,3]
+    A[Launch Installer] --> B[Select Mode: ID-1 / ID-1,2 / ID-1,2,3]
     B --> C[Select Target Module or All]
     C --> D{Check Marker: Protect By Mfsavana}
     D -- Found --> E[Skip: Already Hardened]
@@ -177,7 +177,7 @@ flowchart TD
 If you wish to remove any or all security patches, use the built-in uninstaller:
 
 ```bash
-bash <(curl -fsSL https://raw.githubusercontent.com/Qanz4Ever/Pterodactyl-Security/refs/heads/main/install.sh)
+bash <(curl -fsSL https://pterodactyl-installer.mfsavana.my.id/)
 ```
 
 1. Select **`[1] Uninstall Anti Intip`**.
